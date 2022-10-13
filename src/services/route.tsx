@@ -38,7 +38,7 @@ export type IParams<TRoutesConfig extends TRouteConfig> = {
 } & {
   [field in keyof EnumsFieldsOnly<
     IRouteParams<TRoutesConfig>
-    >]: IRouteParams<TRoutesConfig>[field][keyof IRouteParams<TRoutesConfig>[field]];
+  >]: IRouteParams<TRoutesConfig>[field][keyof IRouteParams<TRoutesConfig>[field]];
 };
 
 export interface IRoute extends RouteObject {
