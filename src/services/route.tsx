@@ -40,8 +40,8 @@ export interface IRoute extends RouteObject {
 
 export interface IRouteServiceParams<TRoutesConfig extends TRouteConfig> {
   routes: TRoutesConfig;
-  onBefore: (element: React.ReactNode, route: IRoute) => React.ReactNode;
-  AuthGateway: FCC<{ isOnlyGuest?: boolean }>;
+  onBefore?: (element: React.ReactNode, route: IRoute) => React.ReactNode;
+  AuthGateway?: FCC<{ isOnlyGuest?: boolean }>;
 }
 
 /**
