@@ -27,10 +27,18 @@ export type OptionalFieldsOnly<T> = {
   [K in keyof T as T[K] extends undefined ? never : K]: T[K];
 };
 
+export type EnumsFieldsOnly<T> = {
+  [K in keyof T as T[K] extends object ? K : never]: T[K];
+};
+
 export type IParams<TRoutesConfig extends TRouteConfig> = {
   [field in keyof RequiredFieldsOnly<IRouteParams<TRoutesConfig>>]: string;
 } & {
   [field in keyof OptionalFieldsOnly<IRouteParams<TRoutesConfig>>]?: string;
+} & {
+  [field in keyof EnumsFieldsOnly<
+    IRouteParams<TRoutesConfig>
+  >]: IRouteParams<TRoutesConfig>[field][keyof IRouteParams<TRoutesConfig>[field]];
 };
 
 export interface IRoute extends RouteObject {
