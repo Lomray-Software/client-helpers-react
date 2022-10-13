@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react';
+import type { FCC } from '@lomray/client-helpers/interfaces';
 import React from 'react';
 import { generatePath } from 'react-router';
 import type { RouteObject } from 'react-router-dom';
@@ -41,7 +41,7 @@ export interface IRoute extends RouteObject {
 export interface IRouteServiceParams<TRoutesConfig extends TRouteConfig> {
   routes: TRoutesConfig;
   onBefore: (element: React.ReactNode, route: IRoute) => React.ReactNode;
-  AuthGateway: ComponentType<{ isOnlyGuest?: boolean }>;
+  AuthGateway: FCC<{ isOnlyGuest?: boolean }>;
 }
 
 /**
