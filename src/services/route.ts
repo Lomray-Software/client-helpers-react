@@ -50,8 +50,11 @@ export interface IRoute<TElement = RouteObject['element']>
 
 export interface IRouteServiceParams<TRoutesConfig extends TRouteConfig> {
   routes: TRoutesConfig;
-  onBefore?: <TE = React.ReactNode>(element: TE, route: IRoute<TE>) => React.ReactNode;
-  onAuthGateway?: <TE = React.ReactNode>(element: TE, isOnlyGuest?: boolean) => React.ReactNode;
+  onBefore?: <TE extends React.ReactNode>(element: TE, route: IRoute<TE>) => React.ReactNode;
+  onAuthGateway?: <TE extends React.ReactNode>(
+    element: TE,
+    isOnlyGuest?: boolean,
+  ) => React.ReactNode;
 }
 
 /**
@@ -93,7 +96,7 @@ class Route<TRoutesConfig extends TRouteConfig> {
   /**
    * Build application routes
    */
-  public buildRoutes = <TE>(
+  public buildRoutes = <TE extends React.ReactNode>(
     baseRoutes?: IRoute<TE>[],
     parentPath?: string,
   ): RouteObject[] | undefined => {
