@@ -1,5 +1,4 @@
-import type { FCC } from '@lomray/client-helpers/interfaces';
-import React from 'react';
+import type React from 'react';
 import { generatePath } from 'react-router';
 import type { RouteObject } from 'react-router-dom';
 
@@ -41,15 +40,18 @@ export type IParams<TRoutesConfig extends TRouteConfig> = {
   >]: IRouteParams<TRoutesConfig>[field][keyof IRouteParams<TRoutesConfig>[field]];
 };
 
-export interface IRoute extends RouteObject {
+export interface IRoute<TElement = RouteObject['element']>
+  extends Omit<RouteObject, 'children' | 'element'> {
+  element?: TElement;
+  children?: IRoute<TElement>[];
   isPrivate?: boolean;
   isOnlyGuest?: boolean;
 }
 
 export interface IRouteServiceParams<TRoutesConfig extends TRouteConfig> {
   routes: TRoutesConfig;
-  onBefore?: (element: React.ReactNode, route: IRoute) => React.ReactNode;
-  AuthGateway?: FCC<{ isOnlyGuest?: boolean }>;
+  onBefore?: <TE = React.ReactNode>(element: TE, route: IRoute<TE>) => React.ReactNode;
+  onAuthGateway?: <TE = React.ReactNode>(element: TE, isOnlyGuest?: boolean) => React.ReactNode;
 }
 
 /**
@@ -91,23 +93,24 @@ class Route<TRoutesConfig extends TRouteConfig> {
   /**
    * Build application routes
    */
-  public buildRoutes = (baseRoutes?: IRoute[], parentPath?: string): RouteObject[] | undefined => {
-    const { onBefore, AuthGateway } = this.params;
+  public buildRoutes = <TE>(
+    baseRoutes?: IRoute<TE>[],
+    parentPath?: string,
+  ): RouteObject[] | undefined => {
+    const { onBefore, onAuthGateway } = this.params;
 
     return baseRoutes?.map((route) => {
-      const { isPrivate = true, isOnlyGuest = false, element, children, path, ...rest } = route;
-      const finalElement = onBefore?.(element, route) ?? element;
+      const { isPrivate = false, isOnlyGuest = false, element, children, path, ...rest } = route;
+      const finalElement = onBefore?.(element, route) ?? (element as unknown as React.ReactNode);
 
       return {
         ...rest,
         path: parentPath && path ? path.replace(parentPath, '') : path,
         children: this.buildRoutes(children, path),
         element:
-          (isPrivate || isOnlyGuest) && AuthGateway ? (
-            <AuthGateway children={finalElement} isOnlyGuest={isOnlyGuest} />
-          ) : (
-            finalElement
-          ),
+          (isPrivate || isOnlyGuest) && onAuthGateway
+            ? onAuthGateway(element, isOnlyGuest)
+            : finalElement,
       };
     });
   };
