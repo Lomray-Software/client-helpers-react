@@ -4,15 +4,24 @@ import { useEffect } from 'react';
 /**
  * Closed element when click outside
  */
-const useOnClickOutside = (ref: RefObject<any>, handler: (e?: MouseEvent) => void) => {
+const useOutsideClick = <T extends HTMLElement = HTMLElement>(
+  ref: RefObject<T> | RefObject<T>[],
+  handler: (event?: any) => void,
+  ignoreCondition?: boolean,
+) => {
   useEffect(() => {
-    const listener = (event: MouseEvent) => {
-      // Do nothing if clicking ref's element or descendent elements
-      if (!ref.current || ref.current.contains(event.target)) {
-        return;
+    const listener = (event: any) => {
+      const refs = Array.isArray(ref) ? ref : [ref];
+
+      for (const r of refs) {
+        const el = r?.current;
+
+        if (!el || el.contains((event?.target as Node) || null)) {
+          return;
+        }
       }
 
-      handler(event);
+      !ignoreCondition && handler(event); // Call the handler only if the click is outside the element passed.
     };
 
     document.addEventListener('mousedown', listener);
@@ -22,7 +31,7 @@ const useOnClickOutside = (ref: RefObject<any>, handler: (e?: MouseEvent) => voi
       document.removeEventListener('mousedown', listener);
       document.removeEventListener('touchstart', listener);
     };
-  }, [ref, handler]);
+  }, [ref, handler, ignoreCondition]); // Reload only if ref or handler changes
 };
 
-export default useOnClickOutside;
+export default useOutsideClick;
