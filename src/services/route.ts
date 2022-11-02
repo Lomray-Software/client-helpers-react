@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { FC } from 'react';
 import { generatePath } from 'react-router';
 import type { RouteObject } from 'react-router-dom';
 
@@ -40,9 +41,9 @@ export type IParams<TRoutesConfig extends TRouteConfig> = {
   >]: IRouteParams<TRoutesConfig>[field][keyof IRouteParams<TRoutesConfig>[field]];
 };
 
-export interface IRoute<TElement = RouteObject['element']>
+export interface IRoute<TElement = RouteObject['element'] | FC>
   extends Omit<RouteObject, 'children' | 'element'> {
-  element?: TElement;
+  element?: TElement | FC;
   children?: IRoute<TElement>[];
   isPrivate?: boolean;
   isOnlyGuest?: boolean;
@@ -50,8 +51,8 @@ export interface IRoute<TElement = RouteObject['element']>
 
 export interface IRouteServiceParams<TRoutesConfig extends TRouteConfig> {
   routes: TRoutesConfig;
-  onBefore?: <TE extends React.ReactNode>(element: TE, route: IRoute<TE>) => React.ReactNode;
-  onAuthGateway?: <TE extends React.ReactNode>(
+  onBefore?: <TE extends React.ReactNode | FC>(element: TE, route: IRoute<TE>) => React.ReactNode;
+  onAuthGateway?: <TE extends React.ReactNode | FC>(
     element: TE,
     isOnlyGuest?: boolean,
   ) => React.ReactNode;
@@ -96,7 +97,7 @@ class Route<TRoutesConfig extends TRouteConfig> {
   /**
    * Build application routes
    */
-  public buildRoutes = <TE extends React.ReactNode>(
+  public buildRoutes = <TE extends React.ReactNode | FC>(
     baseRoutes?: IRoute<TE>[],
     parentPath?: string,
   ): RouteObject[] | undefined => {
