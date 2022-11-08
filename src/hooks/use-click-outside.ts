@@ -2,15 +2,15 @@ import type { RefObject } from 'react';
 import { useEffect } from 'react';
 
 /**
- * Closed element when click outside
+ * This hook used when you need do something when click outside of ref elements
  */
-const useOutsideClick = <T extends HTMLElement = HTMLElement>(
+const useClickOutside = <T extends HTMLElement = HTMLElement>(
   ref: RefObject<T> | RefObject<T>[],
-  handler: (event?: any) => void,
+  handler: (event?: MouseEvent) => void,
   ignoreCondition?: boolean,
 ) => {
   useEffect(() => {
-    const listener = (event: any) => {
+    const listener = (event: MouseEvent) => {
       const refs = Array.isArray(ref) ? ref : [ref];
 
       for (const r of refs) {
@@ -34,4 +34,4 @@ const useOutsideClick = <T extends HTMLElement = HTMLElement>(
   }, [ref, handler, ignoreCondition]); // Reload only if ref or handler changes
 };
 
-export default useOutsideClick;
+export default useClickOutside;
