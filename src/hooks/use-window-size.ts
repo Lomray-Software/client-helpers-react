@@ -10,6 +10,9 @@ interface IWindowSizeParams {
   matchWith?: number;
 }
 
+/**
+ * This hook used when you need to get widow size after resize or set breakpoint flag for any functionality
+ */
 const useWindowSize = ({ matchWith = -1 }: IWindowSizeParams = {}): IWindowSizeReturn => {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
