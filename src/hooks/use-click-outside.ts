@@ -7,9 +7,14 @@ import { useEffect } from 'react';
 const useClickOutside = <T extends HTMLElement = HTMLElement>(
   ref: RefObject<T> | RefObject<T>[],
   handler: (event?: MouseEvent) => void,
-  ignoreCondition?: boolean,
+  hasListeners?: boolean,
 ) => {
   useEffect(() => {
+    // Prevent adding unnecessary event listeners.
+    if (!hasListeners) {
+      return;
+    }
+
     const listener = (event: MouseEvent) => {
       const refs = Array.isArray(ref) ? ref : [ref];
 
@@ -21,7 +26,7 @@ const useClickOutside = <T extends HTMLElement = HTMLElement>(
         }
       }
 
-      !ignoreCondition && handler(event); // Call the handler only if the click is outside the element passed.
+      handler(event);
     };
 
     document.addEventListener('mousedown', listener);
@@ -31,7 +36,7 @@ const useClickOutside = <T extends HTMLElement = HTMLElement>(
       document.removeEventListener('mousedown', listener);
       document.removeEventListener('touchstart', listener);
     };
-  }, [ref, handler, ignoreCondition]); // Reload only if ref or handler changes
+  }, [ref, handler, hasListeners]); // Reload only if ref or handler changes
 };
 
 export default useClickOutside;
