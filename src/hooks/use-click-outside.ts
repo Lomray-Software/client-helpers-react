@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const useClickOutside = <T extends HTMLElement = HTMLElement>(
   ref: RefObject<T> | RefObject<T>[],
   handler: (event?: MouseEvent) => void,
-  hasListeners?: boolean,
+  hasListeners = true,
 ) => {
   useEffect(() => {
     // Prevent adding unnecessary event listeners.
