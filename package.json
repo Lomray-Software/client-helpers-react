@@ -76,6 +76,7 @@
     "react-router": ">=6.3.0",
     "react-router-dom": "6.3.0",
     "react-top-loading-bar": "*",
+    "react-uuid": "^2.0.0",
     "yup": "^0.32.11"
   },
   "bundledDependencies": [
