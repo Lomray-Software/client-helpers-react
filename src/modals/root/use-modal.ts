@@ -1,6 +1,6 @@
 import type { MouseEvent } from 'react';
 import { useCallback, useMemo, useRef } from 'react';
-import uuid from 'react-uuid';
+import { v4 as uuidv4 } from 'uuid';
 import type { IModalItem, IDefaultModalProps } from './context';
 import { useModalContext } from './context';
 
@@ -17,7 +17,7 @@ const useModal = <TProps extends object>(
   /**
    * Uniq ID for each hook
    */
-  const id = useRef(uuid());
+  const id = useRef(uuidv4());
 
   /**
    * Open modal
