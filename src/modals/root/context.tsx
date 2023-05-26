@@ -16,7 +16,9 @@ interface IModalContextState<TComponentProps extends object = Record<string, any
 
 type OmitBaseModalProps<TProps> = Omit<TProps, 'isVisible' | 'toggle'>;
 
-export type IDefaultModalProps = OmitBaseModalProps<IModalProps>;
+export type IDefaultModalProps<TProps extends object = Record<string, any>> = OmitBaseModalProps<
+  IModalProps<TProps>
+>;
 
 export interface IModalContext extends IModalContextState {
   openModal: <TProps extends object = Record<string, any>>(
@@ -88,9 +90,13 @@ export const ModalProvider: FCC = ({ children }) => {
    * Build modal item structure
    */
   const buildModalItem: IModalContext['openModal'] = useCallback(
-    (Component, props, componentProps, id): IModalItem => ({
-      Component: Component as never,
-      props: { ...props, isVisible: true, toggle: () => hideModal(id) },
+    (Component, props, componentProps, id): IModalItem<object> => ({
+      Component: Component as IModalItem<object>['Component'],
+      props: {
+        ...props,
+        isVisible: true,
+        toggle: () => hideModal(id),
+      } as IModalItem<object>['props'],
       id: id ?? 'DEFAULT',
       type: 'DEFAULT',
       componentProps,

@@ -1,15 +1,16 @@
 import type { MouseEvent } from 'react';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { IModalItem, IDefaultModalProps } from './context';
 import { useModalContext } from './context';
+import type { IModalHookRef } from './types';
 
 /**
  * Use modal for custom inners
  */
 const useModal = <TProps extends object>(
   Component: IModalItem<TProps>['Component'],
-  props?: IDefaultModalProps,
+  props?: IDefaultModalProps<TProps>,
   componentProps?: IModalItem<TProps>['componentProps'],
 ) => {
   const { openModal, hideModal } = useModalContext();
@@ -35,6 +36,18 @@ const useModal = <TProps extends object>(
    * Hide modal with current uniq ID
    */
   const hide = useCallback(() => hideModal(id.current), [hideModal]);
+
+  /**
+   * Set functions to ref
+   */
+  useEffect(() => {
+    if (!props?.hookRef) {
+      return;
+    }
+
+    (props.hookRef as IModalHookRef<TProps>).open = open;
+    (props.hookRef as IModalHookRef<TProps>).hide = hide;
+  }, [open, hide, props?.hookRef]);
 
   return useMemo(() => [open, hide], [hide, open]);
 };

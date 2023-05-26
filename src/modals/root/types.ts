@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type useModal from './use-modal';
 
 export type ModalAnimation =
   | 'zoom'
@@ -20,7 +21,16 @@ export interface IModalToggle {
   toggle: () => void;
 }
 
-export interface IModalProps extends IModalToggle {
+export interface IModalParentId {
+  parentId: string;
+}
+
+export interface IModalHookRef<TProps extends object> {
+  open: ReturnType<typeof useModal<TProps>>[0];
+  hide: ReturnType<typeof useModal<TProps>>[1];
+}
+
+export interface IModalProps<TProps extends object = Record<string, any>> extends IModalToggle {
   animation?: ModalAnimation;
   enterAnimation?: ModalAnimation;
   leaveAnimation?: ModalAnimation;
@@ -33,6 +43,7 @@ export interface IModalProps extends IModalToggle {
   bodyClassName?: string;
   children?: ReactNode;
   closeButton?: (defaultProps: { onClick: () => void; className: string }) => ReactNode;
+  hookRef?: IModalHookRef<TProps>;
 }
 
 export interface IModalState {
