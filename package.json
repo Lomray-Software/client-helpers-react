@@ -71,6 +71,7 @@
   },
   "peerDependencies": {
     "@lomray/client-helpers": "*",
+    "@lomray/react-mobx-manager": "*",
     "lodash": "*",
     "mobx": "^6.6.2",
     "react": ">=17.0.2",
