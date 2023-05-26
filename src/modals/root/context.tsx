@@ -90,13 +90,13 @@ export const ModalProvider: FCC = ({ children }) => {
    * Build modal item structure
    */
   const buildModalItem: IModalContext['openModal'] = useCallback(
-    (Component, props, componentProps, id): IModalItem<object> => ({
-      Component: Component as IModalItem<object>['Component'],
+    (Component, props, componentProps, id): IModalItem => ({
+      Component: Component as IModalItem['Component'],
       props: {
         ...props,
         isVisible: true,
         toggle: () => hideModal(id),
-      } as IModalItem<object>['props'],
+      } as IModalItem['props'],
       id: id ?? 'DEFAULT',
       type: 'DEFAULT',
       componentProps,
