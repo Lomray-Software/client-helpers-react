@@ -10,6 +10,9 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=client-helpers-react&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=client-helpers-react)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=client-helpers-react&metric=coverage)](https://sonarcloud.io/summary/new_code?id=client-helpers-react)
 
+## How to use Modal Context
+#### [Code example](https://github.com/Lomray-Software/modal-context-example)
+
 ## How to use Route service typings
 
 src/typings/lomray/route.d.ts (Add new file in project)
