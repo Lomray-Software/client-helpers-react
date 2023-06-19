@@ -6,7 +6,7 @@ import useModal from './use-modal';
 /**
  * Use modal for custom inners
  */
-const useModalMobx = <TProps extends object>(
+const useModalMobx = <TProps extends Record<string, any>>(
   Component: IModalItem<TProps & IModalParentId>['Component'],
   props?: IDefaultModalProps,
   componentProps?: IModalItem<TProps & IModalParentId>['componentProps'],
