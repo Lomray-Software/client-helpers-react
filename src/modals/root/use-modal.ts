@@ -1,9 +1,8 @@
 import type { MouseEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import type { IModalItem, IDefaultModalProps } from './context';
 import { useModalContext } from './context';
-import type { IModalHookRef } from './types';
+import type { IDefaultModalProps, IModalHookRef, IModalItem } from './types';
 
 /**
  * Use modal for custom inners

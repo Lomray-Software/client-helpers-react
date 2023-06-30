@@ -1,11 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import { ModalConsumer } from './context';
-import type { IModalProps, IModalToggle } from './types';
-
-export interface IModalRoot {
-  Modal: FC<IModalProps & IModalToggle>;
-}
+import type { IModalRoot } from './types';
 
 /**
  * ModalRoot Consumer
