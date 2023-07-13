@@ -85,9 +85,7 @@ class GoogleTagManager {
    * Push gtm event
    */
   public pushEvent(data: Record<string, any>): void {
-    const WINDOW_OBJ = (typeof window !== 'undefined' ? window : {}) as any;
-
-    if (WINDOW_OBJ?.dataLayer) {
+    if (typeof window !== 'undefined' && window?.dataLayer) {
       window.dataLayer.push(data);
     }
   }
