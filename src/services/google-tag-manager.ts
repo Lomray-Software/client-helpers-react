@@ -80,6 +80,17 @@ class GoogleTagManager {
       });
     }
   }
+
+  /**
+   * Push gtm event
+   */
+  public pushEvent(data: Record<string, any>): void {
+    const WINDOW_OBJ = (typeof window !== 'undefined' ? window : {}) as any;
+
+    if (WINDOW_OBJ?.dataLayer) {
+      window.dataLayer.push(data);
+    }
+  }
 }
 
 export default new GoogleTagManager();
