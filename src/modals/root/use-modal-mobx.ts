@@ -1,6 +1,5 @@
-import { useStoreManagerParentContext } from '@lomray/react-mobx-manager';
-import type { IModalItem, IDefaultModalProps } from './context';
-import type { IModalParentId } from './types';
+import { useStoreManagerParent } from '@lomray/react-mobx-manager';
+import type { IDefaultModalProps, IModalItem, IModalParentId } from './types';
 import useModal from './use-modal';
 
 /**
@@ -11,8 +10,7 @@ const useModalMobx = <TProps extends Record<string, any>>(
   props?: IDefaultModalProps,
   componentProps?: IModalItem<TProps & IModalParentId>['componentProps'],
 ) => {
-  const parentContext = useStoreManagerParentContext();
-  const parentId = typeof parentContext === 'string' ? parentContext : parentContext?.parentId;
+  const parentId = useStoreManagerParent();
 
   return useModal(Component as never, props, { ...componentProps, parentId });
 };

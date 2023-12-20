@@ -1,20 +1,42 @@
-import type { ReactNode } from 'react';
+import type { FCC } from '@lomray/client-helpers/interfaces/fc-with-children';
+import type { ReactNode, FC } from 'react';
 import type useModal from './use-modal';
 
-export type ModalAnimation =
-  | 'zoom'
-  | 'fade'
-  | 'flip'
-  | 'door'
-  | 'rotate'
-  | 'slideUp'
-  | 'slideDown'
-  | 'slideLeft'
-  | 'slideRight'
-  | 'mobileMenuOpen'
-  | 'mobileMenuClose';
+export interface IModalItem<TProps extends object = Record<string, any>> {
+  props: IModalProps;
+  Component: FCC<TProps & IModalToggle> | null;
+  id: string;
+  type: string;
+  componentProps?: TProps;
+}
 
-export type ModalAnimationType = 'enter' | 'leave';
+interface IModalContextState<TComponentProps extends object = Record<string, any>> {
+  state: IModalItem<TComponentProps>[];
+}
+
+type OmitBaseModalProps<TProps> = Omit<TProps, 'isVisible' | 'toggle'>;
+
+export type IDefaultModalProps<TProps extends object = Record<string, any>> = OmitBaseModalProps<
+  IModalProps<TProps>
+>;
+
+export interface IModalContext extends IModalContextState {
+  openModal: <TProps extends object = Record<string, any>>(
+    Component: IModalItem<TProps>['Component'],
+    props?: IDefaultModalProps,
+    componentProps?: IModalItem<TProps>['componentProps'],
+    id?: string,
+  ) => void;
+  createModal: <TProps extends object = Record<string, any>>(
+    Component: IModalItem<TProps>['Component'],
+    type: string,
+  ) => (props: OmitBaseModalProps<TProps>) => void;
+  hideModal: (id?: string | object) => void;
+}
+
+export interface IModalRoot<TProps extends object = Record<string, any>> {
+  Modal: FC<IModalProps<TProps> & IModalToggle>;
+}
 
 export interface IModalToggle {
   isVisible: boolean;
@@ -31,22 +53,6 @@ export interface IModalHookRef<TProps extends object> {
 }
 
 export interface IModalProps<TProps extends object = Record<string, any>> extends IModalToggle {
-  animation?: ModalAnimation;
-  enterAnimation?: ModalAnimation;
-  leaveAnimation?: ModalAnimation;
-  shouldCloseOnEsc?: boolean;
-  willCloseMaskOnClick?: boolean;
-  isShowMask?: boolean;
-  onAnimationEnd?: () => void;
-  onClose?: () => void;
-  className?: string;
-  bodyClassName?: string;
   children?: ReactNode;
-  closeButton?: (defaultProps: { onClick: () => void; className: string }) => ReactNode;
   hookRef?: IModalHookRef<TProps>;
-}
-
-export interface IModalState {
-  isShow: boolean;
-  animationType: ModalAnimationType;
 }

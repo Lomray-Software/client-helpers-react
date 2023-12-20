@@ -1,38 +1,6 @@
 import type { FCC } from '@lomray/client-helpers/interfaces/fc-with-children';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
-import type { IModalProps, IModalToggle } from './types';
-
-export interface IModalItem<TProps extends object = Record<string, any>> {
-  props: IModalProps;
-  Component: FCC<TProps & IModalToggle> | null;
-  id: string;
-  type: string;
-  componentProps?: TProps;
-}
-
-interface IModalContextState<TComponentProps extends object = Record<string, any>> {
-  state: IModalItem<TComponentProps>[];
-}
-
-type OmitBaseModalProps<TProps> = Omit<TProps, 'isVisible' | 'toggle'>;
-
-export type IDefaultModalProps<TProps extends object = Record<string, any>> = OmitBaseModalProps<
-  IModalProps<TProps>
->;
-
-export interface IModalContext extends IModalContextState {
-  openModal: <TProps extends object = Record<string, any>>(
-    Component: IModalItem<TProps>['Component'],
-    props?: IDefaultModalProps,
-    componentProps?: IModalItem<TProps>['componentProps'],
-    id?: string,
-  ) => void;
-  createModal: <TProps extends object = Record<string, any>>(
-    Component: IModalItem<TProps>['Component'],
-    type: string,
-  ) => (props: OmitBaseModalProps<TProps>) => void;
-  hideModal: (id?: string | object) => void;
-}
+import type { IModalContext, IModalItem } from './types';
 
 /**
  * Init state for context Provider
