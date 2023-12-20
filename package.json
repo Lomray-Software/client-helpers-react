@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-transform-runtime": "^7.19.1",
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-react": "^7.18.6",
@@ -72,11 +73,8 @@
   "peerDependencies": {
     "@lomray/client-helpers": "*",
     "@lomray/react-mobx-manager": "*",
-    "lodash": "*",
-    "mobx": "^6.6.2",
     "react": ">=17.0.2",
-    "react-router": ">=6.3.0",
-    "react-router-dom": "6.3.0",
+    "react-router-dom": ">=6.14.2",
     "react-top-loading-bar": "*",
     "tslib": "^2.5.2",
     "uuid": "^9.0.0",
