@@ -37,7 +37,7 @@ const useOnScreen = <TElement extends Element | null>(
 
       observer.unobserve(refElement);
     };
-  }, [ref, rootMargin, threshold]); // Empty array ensures that effect is only run on mount and unmount
+  }, [ref, rootMargin]); // Empty array ensures that effect is only run on mount and unmount
 
   return isIntersecting;
 };

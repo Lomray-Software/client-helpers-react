@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 const useOnScreen = <TElement extends Element | null>(
   ref: MutableRefObject<TElement>,
   rootMargin = '0px',
-  threshold = 0,
 ): boolean => {
   // State and setter for storing whether element is visible
   const [isIntersecting, setIntersecting] = useState(false);
@@ -20,7 +19,6 @@ const useOnScreen = <TElement extends Element | null>(
       },
       {
         rootMargin,
-        threshold,
       },
     );
 
@@ -37,7 +35,7 @@ const useOnScreen = <TElement extends Element | null>(
 
       observer.unobserve(refElement);
     };
-  }, [ref, rootMargin, threshold]); // Empty array ensures that effect is only run on mount and unmount
+  }, [ref, rootMargin]); // Empty array ensures that effect is only run on mount and unmount
 
   return isIntersecting;
 };
